@@ -2,14 +2,14 @@
 EvaluationManager – Baseline Implementation
 Sequence diagram traceability:
   startEvaluation()
-  submitScore(score)        ← called by Reviewer (loop [each reviewer])
-  saveScore(score)          → Database
+  submitScore(score)        <- called by Reviewer (loop [each reviewer])
+  saveScore(score)         -> Database
   calculateAverage()
   checkConsensus()
   applyRules()
-  → alt [accepted]  notifyAcceptance()  → NotificationService
-  → alt [rejected]  notifyRejection()   → NotificationService
-  → alt [revision]  notifyRevision()    → NotificationService
+ -> alt [accepted]  notifyAcceptance()  -> NotificationService
+  -> alt [rejected]  notifyRejection()   -> NotificationService
+ -> alt [revision]  notifyRevision()   -> NotificationService
 """
 
 from database import Database
@@ -49,9 +49,9 @@ class EvaluationManager:
     def submit_score(self, reviewer_id: str, score: float) -> None:
         """
         submitScore(score) from sequence diagram.
-        Reviewer calls this → EvaluationManager saves to DB and stores locally.
+        Reviewer calls this -> EvaluationManager saves to DB and stores locally.
         """
-        # saveScore(score) → Database
+        # saveScore(score) -> Database
         self._db.save_score(self._submission_id, reviewer_id, score)
         self._scores.append(score)
 
@@ -101,9 +101,9 @@ class EvaluationManager:
     # ------------------------------------------------------------------ #
     def dispatch_outcome(self, outcome: str, researcher_email: str) -> None:
         """
-        alt [accepted] → notifyAcceptance()
-        alt [rejected] → notifyRejection()
-        alt [revision] → notifyRevision()
+        alt [accepted] -> notifyAcceptance()
+        alt [rejected] -> notifyRejection()
+        alt [revision] -> notifyRevision()
         All route through NotificationService.
         """
         if outcome == "accepted":
