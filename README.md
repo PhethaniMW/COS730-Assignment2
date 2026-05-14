@@ -38,9 +38,6 @@ cd Original && python main.py
 
 # Run optimised
 cd Optimised && python submission_service.py
-
-# Re-run empirical comparison
-python report/empirical_comparison.py
 ```
 
 ## Summary of Results
